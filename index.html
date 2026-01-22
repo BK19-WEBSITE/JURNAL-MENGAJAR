@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Jurnal Mengajar Guru</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+
+<body class="bg-slate-100">
+
+<!-- ================= LOGIN PAGE ================= -->
+<div id="loginPage" class="min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-2">Login Guru</h2>
+    <p class="text-center text-slate-500 mb-6">Jurnal Mengajar BK & Informatika</p>
+
+    <input id="username" placeholder="Username"
+      class="w-full mb-3 px-4 py-2 border rounded-lg">
+    <input id="password" type="password" placeholder="Password"
+      class="w-full mb-4 px-4 py-2 border rounded-lg">
+
+    <button onclick="login()"
+      class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 text-white font-semibold">
+      Login
+    </button>
+
+    <p class="text-xs text-center text-slate-400 mt-6">
+      © MOH IQBAL MAULANA, S.Pd – SMP N 19 TEGAL
+    </p>
+  </div>
+</div>
+
+<!-- ================= MAIN APP ================= -->
+<div id="app" class="hidden">
+
+<header class="bg-gradient-to-r from-sky-600 to-emerald-600 text-white p-4 flex justify-between">
+  <div>
+    <h1 class="font-bold text-lg">Jurnal Mengajar Guru</h1>
+    <p class="text-sm">BK & Informatika | SMP N 19 TEGAL</p>
+  </div>
+  <button onclick="logout()" class="bg-rose-500 px-4 py-2 rounded-lg">Logout</button>
+</header>
+
+<main class="max-w-6xl mx-auto p-6 space-y-6">
+
+<!-- BIODATA -->
+<div class="bg-white rounded-xl shadow p-6">
+  <h2 class="text-xl font-bold mb-4">Biodata Guru</h2>
+  <table class="w-full text-sm">
+    <tr><td class="py-1">Nama</td><td>: MOH IQBAL MAULANA, S.Pd</td></tr>
+    <tr><td class="py-1">NIP</td><td>: 200002202024211002</td></tr>
+    <tr><td class="py-1">Sekolah</td><td>: SMP N 19 TEGAL</td></tr>
+    <tr><td class="py-1">Tahun Ajaran</td><td>: 2025/2026</td></tr>
+    <tr><td class="py-1">Mata Pelajaran</td><td>: BK & Informatika</td></tr>
+  </table>
+</div>
+
+<!-- MENU -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <button onclick="show('jurnal')" class="p-4 bg-white rounded-xl shadow">📝 Jurnal Mengajar</button>
+  <button onclick="show('materi')" class="p-4 bg-white rounded-xl shadow">📚 Materi & Tugas</button>
+  <button onclick="show('bk')" class="p-4 bg-white rounded-xl shadow">💬 Catatan BK</button>
+</div>
+
+<!-- JURNAL -->
+<div id="jurnal" class="bg-white rounded-xl shadow p-6 hidden">
+  <h3 class="font-bold mb-2">Jurnal Mengajar</h3>
+  <textarea class="w-full border rounded-lg p-2" rows="4"
+    placeholder="Contoh: Materi, kelas, metode, catatan..."></textarea>
+</div>
+
+<!-- MATERI -->
+<div id="materi" class="bg-white rounded-xl shadow p-6 hidden">
+  <h3 class="font-bold mb-2">Materi & Tugas</h3>
+  <input class="w-full border rounded-lg p-2 mb-2" placeholder="Judul Materi">
+  <input class="w-full border rounded-lg p-2" placeholder="Link Google Drive / Tugas">
+</div>
+
+<!-- BK -->
+<div id="bk" class="bg-white rounded-xl shadow p-6 hidden">
+  <h3 class="font-bold mb-2 text-rose-600">Catatan BK (Rahasia)</h3>
+  <textarea class="w-full border rounded-lg p-2" rows="4"
+    placeholder="Catatan layanan BK siswa"></textarea>
+</div>
+
+</main>
+
+<footer class="text-center text-sm text-slate-500 py-6">
+  © 2025/2026 – MOH IQBAL MAULANA, S.Pd
+</footer>
+
+</div>
+
+<script>
+const USER = "iqbal";
+const PASS_HASH = CryptoJS.MD5("iqbal2026").toString();
+
+function login() {
+  const u = username.value;
+  const p = CryptoJS.MD5(password.value).toString();
+  if (u === USER && p === PASS_HASH) {
+    localStorage.setItem("login","1");
+    location.reload();
+  } else {
+    alert("Login gagal");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("login");
+  location.reload();
+}
+
+if (localStorage.getItem("login") === "1") {
+  loginPage.classList.add("hidden");
+  app.classList.remove("hidden");
+}
+
+function show(id) {
+  ["jurnal","materi","bk"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
